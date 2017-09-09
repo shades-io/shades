@@ -4,13 +4,14 @@
 'use strict';
 
 const restify = require('restify');
-const NotFound = restify.NotFoundError;
-const Conflict = restify.ConflictError;
-const BadRequest = restify.BadRequestError;
+const NotFound = restify.errors.NotFoundError;
+const Conflict = restify.errors.ConflictError;
+const BadRequest = restify.errors.BadRequestError;
+const ServiceUnavailable = restify.errors.ServiceUnavailableError;
 
 const Router = require('../utils/route.js');
 const router = new Router();
-const route = router.route('/:projection/relationships');
+const route = router.route('/:namespace/relationships');
 
 const handlers = require('../utils/handlers.js');
 const notifyAndRespond = handlers.notifyAndRespond;
@@ -146,6 +147,4 @@ route.del('/:fromType/:fromId/:toType/:toId', (req, res, next) => {
         });
 });
 
-exports.apply = (server) => {
-    router.applyRoutes(server, '/:namespace/relationships');
-};
+exports.apply = (server) => router.applyRoutes(server);

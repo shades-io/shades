@@ -42,7 +42,7 @@ server.get('/healthcheck', (req, res, next) => {
     if(health.pipeline && health.storage) {
         res.send(200, 'OK');
     } else {
-        let unavailable = health.pipeline ? 'storage' : 'pipeline';
+        const unavailable = health.pipeline ? 'storage' : 'pipeline';
         res.set('Retry-After', 30);
         res.send(503, `${unavailable} is unavailable`);
     }

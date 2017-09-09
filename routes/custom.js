@@ -8,8 +8,9 @@ const restify = require('restify');
 const NotFound = restify.NotFoundError;
 const BadRequest = restify.BadRequestError;
 
-const Router = require('restify-router').Router;
+const Router = require('../utils/route.js');
 const router = new Router();
+const route = router.route('/:namespace/:projection/custom');
 
 /**
  * Creates a custom route for a plugin using its name.
@@ -41,9 +42,9 @@ exports.apply = (server, plugins) => {
     if (!plugins) { return; }
 
     plugins.forEach((plugin) => {
-        return router.get(`/${plugin.name}`, middleware(plugin.name))
+        return route.get(`/${plugin.name}`, middleware(plugin.name));
     });
 
-    router.applyRoutes(server, '/:namespace/:projection/custom');
+    router.applyRoutes(server);
 };
 
